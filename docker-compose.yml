@@ -9,7 +9,7 @@ services:
       - 7474:7474
       - 7687:7687
     volumes:
-      - $PWD/neo4j:/data/db
+      - $PWD/neo4j:/data
     environment:
       NEO4J_AUTH: neo4j/setpassword
       NEO4J_dbms_memory_pagecache_size: 5G
