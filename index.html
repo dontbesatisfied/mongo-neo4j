@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Neovis.js Simple Example</title>
+        <style type="text/css">
+            html, body {
+                font: 16pt arial;
+            }
+    
+            #viz {
+                width: 900px;
+                height: 700px;
+                border: 1px solid lightgray;
+                font: 22pt arial;
+            }
+        </style>
+    </head>
+    <body onload="draw()">
+        <div id="viz"></div>
+    </body>    
+    Cypher query: <input rows="4" cols=50 id="cypher"></input><br>
+    <button onclick="clickedSubmit()">Submit</button>
+</html>
+
+<script src="https://cdn.neo4jlabs.com/neovis.js/v1.5.0/neovis.js"></script>
+<script type="text/javascript">
+
+  var viz;
+
+  function draw() {
+      var config = {
+          container_id: "viz",
+          server_url: "bolt://localhost:7687",
+          server_user: "neo4j",
+          server_password: "changepassword",
+          labels: {
+            //   Troll: {caption: "word"}
+              "Character": {
+                  "caption": "word",
+                  "size": "count",
+                  "community": "community",
+                //   "title_properties": [
+                //       "word",
+                //       "count"
+                //   ]
+              }
+          },
+          relationships: {
+              "INTERACTS": {
+                  "thickness": "count",
+                  "caption": false
+              }
+            // "AMPLIFIED": {
+            //     "caption": false
+            // }
+          },
+        //   initial_cypher: `MATCH (from:UniqueKeyword {word:"맥도날드"})-[relation:SAME_POST]-(to:UniqueKeyword) RETURN * ORDER BY relation.count DESC  LIMIT 10`
+      };
+
+      viz = new NeoVis.default(config);
+      viz.render();
+  }
+
+  function clickedSubmit() {
+      const cypher = document.getElementById('cypher').value
+      viz.renderWithCypher(cypher);
+  }
+
+</script>
